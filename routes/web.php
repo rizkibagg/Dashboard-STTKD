@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PtbController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,18 +40,16 @@ Route::get('/akademik', function () {
 
 Route::get('/sdm', function () {
     return view('Dashboard.sdm',[
-        "title" => "SDM"
+        "title" => "Sumber Daya Manusia"
     ]);
 });
 
-Route::get('/ptb', function () {
-    return view('Dashboard.ptb',[
-        "title" => "PTB"
+Route::get('/alumni', function () {
+    return view('Dashboard.alumni',[
+        "title" => "Alumni"
     ]);
 });
 
-Route::get('/about', function () {
-    return view('Dashboard.about',[
-        "title" => "About"
-    ]);
-});
+Route::get('/ptb', [PtbController::class, 'index']);
+Route::post('/ptb', [PtbController::class, 'index']);
+

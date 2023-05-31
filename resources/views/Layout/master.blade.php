@@ -5,19 +5,20 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Universitas | {{ $title }}</title>
+    <title>STTKD | {{ $title }}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('/template/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('/template/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('/template/img/sttkd.png') }}" rel="icon">
+    <link href="{{ asset('/template/img/sttkd.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('/template/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -45,8 +46,8 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="/home" class="logo d-flex align-items-center">
-                <img src="{{ asset('/template/img/logo.png') }}" alt="">
-                <span class="d-none d-lg-block mx-3">Universitas</span>
+                <img src="{{ asset('/template/img/sttkd.png') }}" alt="">
+                <span class="d-none d-lg-block mx-3">STTKD</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -109,7 +110,7 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>Universitas</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Sekolah Tingkat Tinggi Kedirgantaraan</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>

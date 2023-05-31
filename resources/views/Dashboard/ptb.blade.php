@@ -15,77 +15,248 @@
     <section class="section dashboard">
         <div class="row">
 
-            <!-- Left side columns -->
             <div class="col-lg-12">
                 <div class="row">
 
-                    <!-- Recent Sales -->
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-
-                            <div class="card-body">
-                                <h5 class="card-title">PTB <span>| Today</span></h5>
-                                <a type="button" class="btn btn-primary btn-sm mx-3" style="float: right;" href="/">Tambah Data</a>
-
-                                <table class="table table-hover datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">No.</th>
-                                            <th scope="col">NIM</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Program Studi</th>
-                                            <th scope="col">Mata Kuliah</th>
-                                            <th scope="col">Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{-- @php
-                                            $no = 1;
-                                        @endphp
-                                        @foreach ($data as $dosen)
-                                        <tr>
-                                            <td><?php echo $no++; ?>.</td>
-                                            <th scope="row">{{ $dosen->nik }}</th>
-                                            <td>{{ $dosen->nama }}</td>
-                                            <td>{{ $dosen->pstudi }}</td>
-                                            <td>{{ $dosen->matkul }}</td>
-                                            <td>
-                                                <a class="badge bg-warning" href="{{ url('editds/'.$dosen->nik) }}" type="submit">Edit</a>
-                                                <a class="badge bg-danger" href="{{ url('') }}" type="submit" name="submit" id="deleteDs" data-nik="{{ $dosen->nik }}" data-nama="{{ $dosen->nama }}">Delete</a>
-                                            </td>
-                                        </tr>
-                                        @endforeach --}}
-                                    </tbody>
-                                </table>
-
+                    <div class="card-body">
+                        <form method="post" action="/ptb">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group row mt-3">
+                                    <div class="col-sm-10">
+                                        <select class="form-select" class="form-control" name="year" required>
+                                            <option value="" selected>Pilih Tahun</option>
+                                            @for ($i = 0; $i < count($data["filter_tahun"]); $i++)
+                                                <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
                             </div>
+                        </form>
+                    </div>
 
-                        </div>
-                    </div><!-- End Recent Sales -->
                 </div>
             </div>
 
             <!-- Left side columns -->
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Taruna Yang Daftar dalam Line Chart</h5>
+
+                                <div>
+                                    <?php echo $data["catar_pendaftar_perbulan"] ?>
+                                </div>
+
+                                <!-- Line Chart -->
+                                <canvas id="lineChart1" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#lineChart1'), {
+                                        type: 'line',
+                                        data: {
+                                            // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                            label: 'Taruna',
+                                            data: <?php echo $data["catar_pendaftar_perbulan"] ?>,
+                                            fill: false,
+                                            borderColor: 'rgb(75, 192, 192)',
+                                            tension: 0.1
+                                            }]
+                                        },
+                                        options: {
+                                            parsing: {
+                                                xAxisKey: 'bulan',
+                                                yAxisKey: 'total'
+                                            }
+                                        }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Line CHart -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Taruna Yang Daftar dalam Bar Chart</h5>
+
+                                <!-- Bar Chart -->
+                                <canvas id="catarPendaftarPerBulan" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#catarPendaftarPerBulan'), {
+                                        type: 'bar',
+                                        data: {
+                                            datasets: [{
+                                                data: <?php echo $data["catar_pendaftar_perbulan"] ?>,
+                                                label: 'Taruna',
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(201, 203, 207, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(153, 102, 255)',
+                                                    'rgb(201, 203, 207)'
+                                                ],
+                                                borderWidth: 1
+                                            }],
+                                        },
+                                        options: {
+                                            parsing: {
+                                                xAxisKey: 'bulan',
+                                                yAxisKey: 'total'
+                                            }
+                                        }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Bar CHart -->
+
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Card Bar Chart -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">By Jenis Kelamin</h5>
+                                <h5 class="card-title">Jumlah Taruna Sudah Bayar Heregistrasi Dalam Tahun</h5>
 
                                 <!-- Bar Chart -->
-                                <canvas id="barChart" style="max-height: 400px;"></canvas>
+                                <canvas id="catarBayarHeregPerbulan" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#catarBayarHeregPerbulan'), {
+                                        type: 'bar',
+                                        data: {
+                                            datasets: [{
+                                                data: <?php echo $data["catar_hereg_perbulan"] ?>,
+                                                label: 'Taruna',
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(201, 203, 207, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(153, 102, 255)',
+                                                    'rgb(201, 203, 207)'
+                                                ],
+                                                borderWidth: 1
+                                            }],
+                                        },
+                                        options: {
+                                            parsing: {
+                                                xAxisKey: 'bulan',
+                                                yAxisKey: 'total'
+                                            }
+                                        }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Bar CHart -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Bar Chart -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Taruna By Jenis Kelamin</h5>
+
+                                <!-- Bar Chart -->
+                                <canvas id="catarByJenisKelamin" style="max-height: 400px;"></canvas>
                                 <script>
                                 document.addEventListener("DOMContentLoaded", () => {
-                                    new Chart(document.querySelector('#barChart'), {
+                                    new Chart(document.querySelector('#catarByJenisKelamin'), {
                                     type: 'bar',
                                     data: {
-                                        labels: ['Laki-laki', 'Perempuan'],
                                         datasets: [{
-                                        label: 'Bar Chart',
-                                        data: [65, 59],
+                                        label: 'Taruna',
+                                        data: <?php echo $data["catar_by_gender"] ?>,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)',
+                                            'rgba(255, 205, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(201, 203, 207, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(255, 159, 64)',
+                                            'rgb(255, 205, 86)',
+                                            'rgb(75, 192, 192)',
+                                            'rgb(54, 162, 235)',
+                                            'rgb(153, 102, 255)',
+                                            'rgb(201, 203, 207)'
+                                        ],
+                                        borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                        }
+                                    }
+                                    });
+                                });
+                                </script>
+                                <!-- End Bar CHart -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Taruna By Jenis Kelamin By Program Studi</h5>
+
+                                <!-- Bar Chart -->
+                                <canvas id="catarByJKByProdi" style="max-height: 400px;"></canvas>
+                                <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#catarByJKByProdi'), {
+                                    type: 'bar',
+                                    data: {
+                                        datasets: [{
+                                        label: 'Taruna',
+                                        data: <?php echo $data["catar_bygender_byprodi"] ?>,
                                         backgroundColor: [
                                             'rgba(255, 99, 132, 0.2)',
                                             'rgba(255, 159, 64, 0.2)',
@@ -126,7 +297,11 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                            <h5 class="card-title">By Program Studi</h5>
+                            <h5 class="card-title">Jumlah Taruna By Program Studi (Belum)</h5>
+
+                            <div>
+                                <?php echo $data["catar_bygender_byprodi"] ?>
+                            </div>
 
                             <!-- Column Chart -->
                             <div id="columnChart"></div>
@@ -135,11 +310,11 @@
                                 document.addEventListener("DOMContentLoaded", () => {
                                 new ApexCharts(document.querySelector("#columnChart"), {
                                     series: [{
-                                    name: 'Teknik Rekayasa',
-                                    data: [34]
+                                    name: 'Laki Laki',
+                                    data: <?php echo $data["catar_bygender_byprodi"] ?>
                                     }, {
-                                    name: 'Teknik Mesin',
-                                    data: [40]
+                                    name: 'Perempuan',
+                                    data: <?php echo $data["catar_bygender_byprodi"] ?>
                                     }],
                                     chart: {
                                     type: 'bar',
@@ -190,7 +365,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Bar Chart</h5>
+                                <h5 class="card-title">Jumlah Taruna By Provinsi</h5>
 
                                 <!-- Bar Chart -->
                                 <div id="barChart2"></div>
@@ -199,7 +374,8 @@
                                 document.addEventListener("DOMContentLoaded", () => {
                                     new ApexCharts(document.querySelector("#barChart2"), {
                                     series: [{
-                                        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+                                        name:"Taruna",
+                                        data: <?php echo $data["catar_by_provinsi"] ?>
                                     }],
                                     chart: {
                                         type: 'bar',
@@ -215,9 +391,7 @@
                                         enabled: false
                                     },
                                     xaxis: {
-                                        categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-                                        'United States', 'China', 'Germany'
-                                        ],
+                                        type:"category"
                                     }
                                     }).render();
                                 });
@@ -231,7 +405,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">By Provinsi</h5>
+                                <h5 class="card-title">Jumlah Taruna By Sumber Informasi Pendaftaran</h5>
 
                                 <!-- Pie Chart -->
                                 <div id="pieChart"></div>
@@ -247,7 +421,7 @@
                                         show: true
                                         }
                                     },
-                                    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E', 'A']
+                                    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
                                     }).render();
                                 });
                                 </script>
@@ -260,76 +434,51 @@
                 </div>
             </div><!-- End Left side columns -->
 
-            <!-- Right side columns -->
-            <div class="col-lg-4">
-
-                <!-- Website Traffic -->
+            <div class="col-lg-12">
                 <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Line Chart</h5>
 
-                    <div class="card-body pb-0">
-                        <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
-                        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                        <!-- Line Chart -->
+                        <div id="lineChart"></div>
 
                         <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                echarts.init(document.querySelector("#trafficChart")).setOption({
-                                    tooltip: {
-                                        trigger: 'item'
-                                    },
-                                    legend: {
-                                        top: '5%',
-                                        left: 'center'
-                                    },
-                                    series: [{
-                                        name: 'Access From',
-                                        type: 'pie',
-                                        radius: ['40%', '70%'],
-                                        avoidLabelOverlap: false,
-                                        label: {
-                                            show: false,
-                                            position: 'center'
-                                        },
-                                        emphasis: {
-                                            label: {
-                                                show: true,
-                                                fontSize: '18',
-                                                fontWeight: 'bold'
-                                            }
-                                        },
-                                        labelLine: {
-                                            show: false
-                                        },
-                                        data: [{
-                                                value: 1048,
-                                                name: 'Search Engine'
-                                            },
-                                            {
-                                                value: 735,
-                                                name: 'Direct'
-                                            },
-                                            {
-                                                value: 580,
-                                                name: 'Email'
-                                            },
-                                            {
-                                                value: 484,
-                                                name: 'Union Ads'
-                                            },
-                                            {
-                                                value: 300,
-                                                name: 'Video Ads'
-                                            }
-                                        ]
-                                    }]
-                                });
-                            });
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new ApexCharts(document.querySelector("#lineChart"), {
+                            series: [{
+                                name: "Desktops",
+                                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'line',
+                                zoom: {
+                                enabled: false
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'straight'
+                            },
+                            grid: {
+                                row: {
+                                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                                opacity: 0.5
+                                },
+                            },
+                            xaxis: {
+                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                            }
+                            }).render();
+                        });
                         </script>
+                        <!-- End Line Chart -->
 
                     </div>
-                </div><!-- End Website Traffic -->
-
-            </div><!-- End Right side columns -->
+                </div>
+            </div>
 
         </div>
     </section>

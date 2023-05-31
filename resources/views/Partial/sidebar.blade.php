@@ -12,31 +12,31 @@
 
             <li class="nav-item">
                 <a class="nav-link {{ ($title === "Akademik") ? 'active' : 'collapsed' }}" href="/akademik">
-                    <i class="bi bi-menu-button-wide"></i>
+                    <i class="fa-solid fa-user-nurse"></i>
                     <span>Akademik</span>
                 </a>
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link {{ ($title === "SDM") ? 'active' : 'collapsed' }}" href="/sdm">
-                    <i class="bi bi-journal-text"></i>
-                    <span>SDM</span>
+                <a class="nav-link {{ ($title === "Sumber Daya Manusia") ? 'active' : 'collapsed' }}" href="/sdm">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Sumber Daya Manusia</span>
                 </a>
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link {{ ($title === "PTB") ? 'active' : 'collapsed' }}" href="/ptb">
-                    <i class="bi bi-layout-text-window-reverse"></i>
-                    <span>PTB</span>
+                <a class="nav-link {{ ($title === "Penerimaan Taruna Baru") ? 'active' : 'collapsed' }}" href="/ptb">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Penerimaan Taruna Baru</span>
                 </a>
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link {{ ($title === "About") ? 'active' : 'collapsed' }}" href="/about">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
+                <a class="nav-link {{ ($title === "Alumni") ? 'active' : 'collapsed' }}" href="/alumni">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Alumni</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li><!-- End Tables Nav -->
 
         </ul>
 
