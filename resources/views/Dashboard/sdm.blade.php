@@ -1,12 +1,11 @@
 @extends('Layout.master')
 
 @section('master')
-
     <div class="pagetitle">
         <h1>{{ $title }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">{{ $title }}</li>
             </ol>
         </nav>
@@ -16,7 +15,7 @@
         <div class="row">
 
             <!-- Left side columns -->
-            <div class="col-lg-12">
+            {{-- <div class="col-lg-12">
                 <div class="row">
 
                     <div class="card-body">
@@ -26,12 +25,16 @@
                                 <div class="form-group row mt-3">
                                     <div class="col-sm-10">
                                         <select class="form-select" class="form-control" name="year" required>
-                                            <option value="" selected>Pilih Tahun</option>
-                                            {{-- @for ($i = 0; $i < count($data["filter_tahun"]); $i++)
-                                                <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
-                                            @endfor --}}
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
+                                            <option value="">Pilih Tahun</option>
+                                            @for ($i = 0; $i < count($data['filter_tahun']); $i++)
+                                                @if ($data['filter_tahun'][$i]['filterTahun'] == $year)
+                                                    <option value='{{ $data['filter_tahun'][$i]['filterTahun'] }}' selected>
+                                                        {{ $data['filter_tahun'][$i]['filterTahun'] }}</option>
+                                                @else
+                                                    <option value='{{ $data['filter_tahun'][$i]['filterTahun'] }}'>
+                                                        {{ $data['filter_tahun'][$i]['filterTahun'] }}</option>
+                                                @endif
+                                            @endfor
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
@@ -43,80 +46,164 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Left side columns -->
             <div class="col-lg-12">
                 <div class="row">
 
-                    <!-- Card Bar Chart -->
-                    <div class="col-lg-12">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                            <h5 class="card-title">Column Chart</h5>
+                                <h5 class="card-title">Jumlah Dosen by Prodi</h5>
 
-                            <!-- Column Chart -->
-                            <div id="columnChart"></div>
+                                <!-- Bar Chart -->
+                                <canvas id="sdmDosenbyHomeBaseProdi" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#sdmDosenbyHomeBaseProdi'), {
+                                            type: 'bar',
+                                            data: {
+                                                datasets: [{
+                                                    data: <?php echo $data['Dosen_by_HomeBaseProdi']; ?>,
+                                                    label: 'Dosen',
+                                                    backgroundColor: [
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(255, 159, 64, 0.2)',
+                                                        'rgba(255, 205, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(201, 203, 207, 0.2)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgb(255, 99, 132)',
+                                                        'rgb(255, 159, 64)',
+                                                        'rgb(255, 205, 86)',
+                                                        'rgb(75, 192, 192)',
+                                                        'rgb(54, 162, 235)',
+                                                        'rgb(153, 102, 255)',
+                                                        'rgb(201, 203, 207)'
+                                                    ],
+                                                    borderWidth: 1
+                                                }],
+                                            },
+                                            options: {
+                                                parsing: {
+                                                    xAxisKey: 'hbBase',
+                                                    yAxisKey: 'total'
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Bar CHart -->
 
-                            <script>
-                              document.addEventListener("DOMContentLoaded", () => {
-                                new ApexCharts(document.querySelector("#columnChart"), {
-                                  series: [{
-                                    name: 'Net Profit',
-                                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 54, 60, 70]
-                                  }, {
-                                    name: 'Revenue',
-                                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 97, 88]
-                                  }, {
-                                    name: 'Free Cash Flow',
-                                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 60, 65, 90]
-                                  }, {
-                                    name: 'Clash Clan',
-                                    data: [30, 42, 54, 60, 66, 72, 102, 98, 90, 80, 75, 46]
-                                  }],
-                                  chart: {
-                                    type: 'bar',
-                                    height: 350
-                                  },
-                                  plotOptions: {
-                                    bar: {
-                                      horizontal: false,
-                                      columnWidth: '55%',
-                                      endingShape: 'rounded'
-                                    },
-                                  },
-                                  dataLabels: {
-                                    enabled: false
-                                  },
-                                  stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                  },
-                                  xaxis: {
-                                    categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des'],
-                                  },
-                                  yaxis: {
-                                    title: {
-                                      text: '$ (thousands)'
-                                    }
-                                  },
-                                  fill: {
-                                    opacity: 1
-                                  },
-                                  tooltip: {
-                                    y: {
-                                      formatter: function(val) {
-                                        return "$ " + val + " thousands"
-                                      }
-                                    }
-                                  }
-                                }).render();
-                              });
-                            </script>
-                            <!-- End Column Chart -->
+                            </div>
+                        </div>
+                    </div>
 
-                          </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Dosen by Gender</h5>
+
+                                <!-- Bar Chart -->
+                                <canvas id="sdmDosenbyGender" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#sdmDosenbyGender'), {
+                                            type: 'bar',
+                                            data: {
+                                                datasets: [{
+                                                    data: <?php echo $data['Dosen_by_Gender']; ?>,
+                                                    label: 'Dosen',
+                                                    backgroundColor: [
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(255, 205, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(201, 203, 207, 0.2)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgb(54, 162, 235)',
+                                                        'rgb(255, 99, 132)',
+                                                        'rgb(255, 205, 86)',
+                                                        'rgb(75, 192, 192)',
+                                                        'rgb(54, 162, 235)',
+                                                        'rgb(153, 102, 255)',
+                                                        'rgb(201, 203, 207)'
+                                                    ],
+                                                    borderWidth: 1
+                                                }],
+                                            },
+                                            options: {
+                                                parsing: {
+                                                    xAxisKey: 'karJK',
+                                                    yAxisKey: 'total'
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Bar CHart -->
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jumlah Dosen by Gender by Status</h5>
+
+                                <!-- Bar Chart -->
+                                <canvas id="sdmDosenbyGenderbyStatus" style="max-height: 400px;"></canvas>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new Chart(document.querySelector('#sdmDosenbyGenderbyStatus'), {
+                                            type: 'bar',
+                                            data: {
+                                                datasets: [{
+                                                    data: <?php echo $data['Dosen_by_GenderAndStatus']; ?>,
+                                                    label: 'Dosen',
+                                                    backgroundColor: [
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(255, 159, 64, 0.2)',
+                                                        'rgba(255, 205, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(201, 203, 207, 0.2)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgb(255, 99, 132)',
+                                                        'rgb(255, 159, 64)',
+                                                        'rgb(255, 205, 86)',
+                                                        'rgb(75, 192, 192)',
+                                                        'rgb(54, 162, 235)',
+                                                        'rgb(153, 102, 255)',
+                                                        'rgb(201, 203, 207)'
+                                                    ],
+                                                    borderWidth: 1
+                                                }],
+                                            },
+                                            options: {
+                                                parsing: {
+                                                    xAxisKey: 'karJK_sdStatus',
+                                                    yAxisKey: 'total'
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <!-- End Bar CHart -->
+
+                            </div>
                         </div>
                     </div>
 

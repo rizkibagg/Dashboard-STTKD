@@ -6,7 +6,7 @@
         <h1>{{ $title }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">{{ $title }}</li>
             </ol>
         </nav>
@@ -25,9 +25,13 @@
                                 <div class="form-group row mt-3">
                                     <div class="col-sm-10">
                                         <select class="form-select" class="form-control" name="year" required>
-                                            <option value="" selected>Pilih Tahun</option>
+                                            <option value="">Pilih Tahun</option>
                                             @for ($i = 0; $i < count($data["filter_tahun"]); $i++)
-                                                <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                                @if ($data["filter_tahun"][$i]["filterTahun"] == $year)
+                                                    <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}' selected>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                                @else
+                                                    <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                                @endif
                                             @endfor
                                         </select>
                                     </div>
@@ -49,11 +53,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Jumlah Taruna Yang Daftar dalam Line Chart</h5>
-
-                                <div>
-                                    <?php echo $data["catar_pendaftar_perbulan"] ?>
-                                </div>
+                                <h5 class="card-title">Jumlah Taruna Yang Daftar Line Chart</h5>
 
                                 <!-- Line Chart -->
                                 <canvas id="lineChart1" style="max-height: 400px;"></canvas>
@@ -89,7 +89,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Jumlah Taruna Yang Daftar dalam Bar Chart</h5>
+                                <h5 class="card-title">Jumlah Taruna Yang Daftar Bar Chart</h5>
 
                                 <!-- Bar Chart -->
                                 <canvas id="catarPendaftarPerBulan" style="max-height: 400px;"></canvas>
@@ -206,8 +206,8 @@
                                         label: 'Taruna',
                                         data: <?php echo $data["catar_by_gender"] ?>,
                                         backgroundColor: [
+                                            'rgba(54, 162, 235, 0.2)',
                                             'rgba(255, 99, 132, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
                                             'rgba(255, 205, 86, 0.2)',
                                             'rgba(75, 192, 192, 0.2)',
                                             'rgba(54, 162, 235, 0.2)',
@@ -215,8 +215,8 @@
                                             'rgba(201, 203, 207, 0.2)'
                                         ],
                                         borderColor: [
+                                            'rgb(54, 162, 235)',
                                             'rgb(255, 99, 132)',
-                                            'rgb(255, 159, 64)',
                                             'rgb(255, 205, 86)',
                                             'rgb(75, 192, 192)',
                                             'rgb(54, 162, 235)',
@@ -297,74 +297,6 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                            <h5 class="card-title">Jumlah Taruna By Program Studi (Belum)</h5>
-
-                            <div>
-                                <?php echo $data["catar_bygender_byprodi"] ?>
-                            </div>
-
-                            <!-- Column Chart -->
-                            <div id="columnChart"></div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                new ApexCharts(document.querySelector("#columnChart"), {
-                                    series: [{
-                                    name: 'Laki Laki',
-                                    data: <?php echo $data["catar_bygender_byprodi"] ?>
-                                    }, {
-                                    name: 'Perempuan',
-                                    data: <?php echo $data["catar_bygender_byprodi"] ?>
-                                    }],
-                                    chart: {
-                                    type: 'bar',
-                                    height: 350
-                                    },
-                                    plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        endingShape: 'rounded'
-                                    },
-                                    },
-                                    dataLabels: {
-                                    enabled: false
-                                    },
-                                    stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                    },
-                                    xaxis: {
-                                    categories: ['Tahun Ajaran 2022/2023'],
-                                    },
-                                    yaxis: {
-                                    title: {
-                                        text: 'Jumlah Taruna'
-                                    }
-                                    },
-                                    fill: {
-                                    opacity: 1
-                                    },
-                                    tooltip: {
-                                    y: {
-                                        formatter: function(val) {
-                                        return val + " Taruna"
-                                        }
-                                    }
-                                    }
-                                }).render();
-                                });
-                            </script>
-                            <!-- End Column Chart -->
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
                                 <h5 class="card-title">Jumlah Taruna By Provinsi</h5>
 
                                 <!-- Bar Chart -->
@@ -379,7 +311,7 @@
                                     }],
                                     chart: {
                                         type: 'bar',
-                                        height: 350
+                                        height: 600
                                     },
                                     plotOptions: {
                                         bar: {
@@ -402,83 +334,8 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Jumlah Taruna By Sumber Informasi Pendaftaran</h5>
-
-                                <!-- Pie Chart -->
-                                <div id="pieChart"></div>
-
-                                <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    new ApexCharts(document.querySelector("#pieChart"), {
-                                    series: [44, 55, 13, 43, 22, 10],
-                                    chart: {
-                                        height: 350,
-                                        type: 'pie',
-                                        toolbar: {
-                                        show: true
-                                        }
-                                    },
-                                    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
-                                    }).render();
-                                });
-                                </script>
-                                <!-- End Pie Chart -->
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div><!-- End Left side columns -->
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Line Chart</h5>
-
-                        <!-- Line Chart -->
-                        <div id="lineChart"></div>
-
-                        <script>
-                        document.addEventListener("DOMContentLoaded", () => {
-                            new ApexCharts(document.querySelector("#lineChart"), {
-                            series: [{
-                                name: "Desktops",
-                                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-                            }],
-                            chart: {
-                                height: 350,
-                                type: 'line',
-                                zoom: {
-                                enabled: false
-                                }
-                            },
-                            dataLabels: {
-                                enabled: false
-                            },
-                            stroke: {
-                                curve: 'straight'
-                            },
-                            grid: {
-                                row: {
-                                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                                opacity: 0.5
-                                },
-                            },
-                            xaxis: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                            }
-                            }).render();
-                        });
-                        </script>
-                        <!-- End Line Chart -->
-
-                    </div>
-                </div>
-            </div>
 
         </div>
     </section>

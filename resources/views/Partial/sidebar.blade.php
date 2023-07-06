@@ -4,7 +4,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link {{ ($title === "Home") ? 'active' : 'collapsed' }}" href="/home">
+                <a class="nav-link {{ ($title === "Home") ? 'active' : 'collapsed' }}" href="/">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>

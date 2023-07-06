@@ -6,7 +6,7 @@
         <h1>{{ $title }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active">{{ $title }}</li>
             </ol>
         </nav>
@@ -20,18 +20,45 @@
                 <div class="row">
 
                     <div class="card-body">
-                        <form method="post" action="/ptb">
+                        {{-- <form method="post" action="/akademik">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group row mt-3">
                                     <div class="col-sm-10">
                                         <select class="form-select" class="form-control" name="year" required>
-                                            <option value="" selected>Pilih Tahun</option>
+                                            <option value="">Pilih Tahun</option>
+                                            @for ($i = 0; $i < count($data["filter_tahun"]); $i++)
+                                                @if ($data["filter_tahun"][$i]["filterTahun"] == $year)
+                                                    <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}' selected>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                                @else
+                                                    <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> --}}
+                        <form method="post" action="/akademik">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group row mt-3">
+                                    <div class="col-sm-10">
+                                        <select class="form-select" class="form-control" name="semester" required>
+                                            <option value="">Pilih Tahun dan Semester</option>
                                             {{-- @for ($i = 0; $i < count($data["filter_tahun"]); $i++)
                                                 <option value='{{ $data["filter_tahun"][$i]["filterTahun"] }}'>{{ $data["filter_tahun"][$i]["filterTahun"] }}</option>
                                             @endfor --}}
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
+                                            @for ($i = 0; $i < count($data["filter_semester"]); $i++)
+                                            @if ($data["filter_semester"][$i]["filterSemester"] == $semester)
+                                                <option value='{{ $data["filter_semester"][$i]["filterSemester"] }}' selected>{{ $data["filter_semester"][$i]["filterSemester"] }}</option>
+                                            @else
+                                                <option value='{{ $data["filter_semester"][$i]["filterSemester"] }}'>{{ $data["filter_semester"][$i]["filterSemester"] }}</option>
+                                            @endif
+                                        @endfor
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
@@ -53,19 +80,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Status Taruna</h5>
+                                <h5 class="card-title">Taruna Bayar Lunas</h5>
 
                                 <!-- Bar Chart -->
-                                <canvas id="barChart" style="max-height: 400px;"></canvas>
+                                <canvas id="mhs_byr_lunas" style="max-height: 400px;"></canvas>
                                 <script>
                                 document.addEventListener("DOMContentLoaded", () => {
-                                    new Chart(document.querySelector('#barChart'), {
+                                    new Chart(document.querySelector('#mhs_byr_lunas'), {
                                     type: 'bar',
                                     data: {
-                                        labels: ['Aktif', 'Lulus', 'DO', 'Cuti'],
                                         datasets: [{
-                                        label: 'Bar Chart',
-                                        data: [200, 120, 10, 14],
+                                        label: 'Taruna',
+                                        data: <?php echo $data["Mhs_byr_Lunas"]; ?>,
                                         backgroundColor: [
                                             'rgba(255, 99, 132, 0.2)',
                                             'rgba(255, 159, 64, 0.2)',
@@ -88,10 +114,9 @@
                                         }]
                                     },
                                     options: {
-                                        scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
+                                        parsing: {
+                                            xAxisKey: 'prodi',
+                                            yAxisKey: 'total'
                                         }
                                     }
                                     });
@@ -103,7 +128,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12">
+                    {{-- <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                             <h5 class="card-title">Prodi by Chart</h5>
@@ -174,7 +199,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div><!-- End Left side columns -->

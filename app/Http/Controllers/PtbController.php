@@ -41,7 +41,8 @@ class PtbController extends Controller
         // echo json_encode(GetCatarbyprovinsi()); die;
 
         return view('Dashboard.ptb',[
-            "title" => "Penerimaan Taruna Baru"
+            "title" => "Penerimaan Taruna Baru",
+            'year' => $year
         ])->with('data',$data);
     }
 }

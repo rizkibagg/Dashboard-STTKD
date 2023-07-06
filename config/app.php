@@ -196,7 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
-
+    // ini_set('max_execution_time', 180),
     /*
     |--------------------------------------------------------------------------
     | Class Aliases
